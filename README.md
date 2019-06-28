@@ -1,9 +1,6 @@
 # multisenservice
 Web Apps for Displaying IoT Sensors with ReactJS
 
-# multisenservice
-Web Apps for Displaying IoT Sensors with ReactJS
-
 ## Usage
 Run this server using
 
