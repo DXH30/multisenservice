@@ -9,6 +9,17 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+var createCsvWriter = require('csv-writer').createArrayCsvWriter;
+
+// Ambil field data dari db
+// Setiap field data di tambah kolom db ditambah
+// Jika data kosong field kosong
+const csvWriter = createCsvWriter({
+    path: 'file.csv',
+    header: ['SENSOR1', 'SENSOR2', 'SENSOR3', 'SENSOR4', 'SENSOR5']
+});
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -27,6 +38,25 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
+app.get('/input', (req, res) => {
+    return res.send('pong');
+});
+
+app.post('/input', (req, res) => {
+    const sensor = [[
+        req.body.sensor1,
+        req.body.sensor2,
+        req.body.sensor3,
+        req.body.sensor4,
+        req.body.sensor5
+    ]];
+    csvWriter.writeRecords(sensor)
+        .then(() => {
+            console.log(sensor);
+            console.log('data telah dikirimkan...');
+        });
+    res.sendStatus(200);
+});
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
